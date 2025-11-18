@@ -1,0 +1,47 @@
+{
+  "name": "greenhouse-api",
+  "version": "1.0.0",
+  "description": "A modern, comprehensive, and secure platform for homeschool management.",
+  "homepage": "https://github.com/steven-clements/greenhouse-api#readme",
+  "bugs": {
+    "url": "https://github.com/steven-clements/greenhouse-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/steven-clements/greenhouse-api.git"
+  },
+  "license": "UNLICENSED",
+  "author": "Steven \"Chris\" Clements <clements.steven07@outlook.com>",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node",
+    "server": "nodemon"
+  },
+  "dependencies": {
+    "argon2": "^0.44.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
+    "express-rate-limit": "^8.2.1",
+    "express-validator": "^7.3.0",
+    "handlebars": "^4.7.8",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.20.0",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.10",
+    "qrcode": "^1.5.4",
+    "speakeasy": "^2.0.0",
+    "uuid": "^13.0.0",
+    "winston": "^3.18.3",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
+    "supertest": "^7.1.4"
+  }
+}
