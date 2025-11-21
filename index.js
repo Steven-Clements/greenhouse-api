@@ -16,6 +16,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { engine } from 'express-handlebars';
 import path from 'path';
+import favicon from 'serve-favicon';
 
 
 /* —————————————————————————————————————————————————————————————————————————— *\
@@ -31,6 +32,10 @@ import connectMongoDb from './system/connect-mongo-db.js';
 import dispatchRequest from './routes/dispatch-request.js';
 import log from './utilities/logger.js';
 import registerSignalListeners from './system/signal-listeners.js';
+import {
+    error404Handler,
+    errorHandler
+} from './middleware/error-handler.js';
 
 
 /* —————————————————————————————————————————————————————————————————————————— *\
@@ -77,7 +82,13 @@ const basePath = process.env.RENDER_EXTERNAL_URL || process.env.BASE_PATH || 'ht
         }));
         app.set('view engine', 'hbs');
 
-        app.set('views', path.join(process.cwd(), 'views'))
+        app.set('views', path.join(process.cwd(), 'views'));
+
+        /**
+         * Define a path for static assets.
+         */
+        app.use(favicon(path.join(process.cwd(), 'assets', 'images', 'favicon.ico')));
+        app.use('/assets', express.static(path.join(process.cwd(), 'assets')));
 
 
         /* —————————————————————————————————————————————————————————————————————————— *\
@@ -99,6 +110,13 @@ const basePath = process.env.RENDER_EXTERNAL_URL || process.env.BASE_PATH || 'ht
         | Register OS signal listeners                                                 |
         \* —————————————————————————————————————————————————————————————————————————— */
         await registerSignalListeners(server, dbInfo.connection);
+
+
+        /* —————————————————————————————————————————————————————————————————————————— *\
+        | Error handling                                                               |
+        \* —————————————————————————————————————————————————————————————————————————— */
+        app.use(error404Handler);
+        app.use(errorHandler);
     } catch (bootError) {
         log ('error', `BOOT ERROR >> The server failed to start correctly.`, { cause: error });
 

@@ -1,0 +1,25 @@
+<main class="view-container">
+    <section class="verify-card">
+        <h1><i class="fas fa-check-circle"></i> Registration Successful</h1>
+
+
+        <p class="message">
+            Thank you for signing up! We've sent a verification link to your email.
+            Please confirm your email address before signing in.
+        </p>
+
+
+        <form action="/api/v1/auth/resend-verification" method="POST" class="resend-form">
+            <input type="hidden" name="email" value="{{email}}">
+
+            <p class="resend-label">Didn't receive the email?</p>
+
+            <button type="submit" class="button success">Resend Verification Email</button>
+        </form>
+
+
+        <div class="form-subtext">
+            <p>Once verified, you can <a href="/login">sign in here</a>.</p>
+        </div>
+    </section>
+</main>

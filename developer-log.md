@@ -4,6 +4,119 @@ This log describes changes across the Greenhouse API project during the developm
 
 ---
 
+## [0.0.6] - 21 September 2025
+
+In this release, the Greenhouse API gained a complete registration and verification flow.
+
+New modules were introduced including `login.js` for basic user authentication, `auth-routes.js` to centralize routing for authentication and email verification, and dedicated models for User and Verification Token resources.
+
+The verification process was expanded with `verify-email.js` to handle email confirmation and `verify-redirect.js` to seamlessly convert GET requests from email links into POST requests through an auto‑submitting form.
+
+Supporting updates were made across the codebase: `deliver-email.js` now propagates verification links correctly, `auth-service.js` and `user-service.js` were extended with business logic for registration and verification, and `error-handler.js` was refined to improve JWT error handling.
+
+The frontend views and styles were also enhanced, with updates to `register.hbs`, `main.hbs`, and `style.css` to support the new create-user and verify-notice flows.
+
+Additionally, `index.js` was updated to serve static assets, and the `serve-favicon` dependency was added to improve client‑side presentation.
+
+Together, these changes establish a robust foundation for user onboarding, authentication, and email verification within the application.
+
+- **Commit message**: `Registration | Email verification | Supporting models`
+
+### Added
+
+- Created a new `login.js` to perform basic authentication for Users.
+- Created a new `auth-routes.js` to route requests related to authentication and email verification to an appropriate endpoint.
+- Created a new `Verification-Token.js` to define the properties and methods representing a Verification Token resource.
+- Created a new `User.js` to define the properties and methods representing a User resource.
+- Created a new `verify-email.js` to verify user email addresses.
+- Created a new `verify-redirect.js` to convert GET requests from activated email verification links to POST requests by passing data through an auto-submitting form.
+
+#### Dependencies
+
+- [serve-favicon](https://www.npmjs.com/package/serve-favicon).
+
+### Changed
+
+- Updated `index.js` to include a static path definition for `assets`.
+- Updated `register.hbs` with styles.
+- Updated `main.hbs` to include global styles applied to all backend views.
+- Updated `deliver-email.js` to update verification link propagation and to fix a file reference.
+- Updated `auth-service.js` to add business logic related to email verification.
+- Updated `user-service.js` to add business logic related to user registration and lookups.
+- Updated `error-handler.js` to fix Jsonwebtoken error handling and adjust context.
+- Updated `create-user.js` to add logic for registering new users.
+- Updated `style.css` to add styles for the `create-user` and `verify-notice` views.
+
+### Directory structure
+
+```txt
+[greenhouse-api]
+    |-- [assets]
+    |       |-- style.css
+    |-- [controllers]
+    |       |-- [auth]
+    |               |-- login.js
+    |               |-- verify-email.js
+    |               |-- verify-redirect.js
+    |       |-- [users]
+    |               |-- create-user.js
+    |-- [errors]
+    |       |-- Api-Error.js
+    |       |-- Auth-Error.js
+    |       |-- Bad-Request-Error.js
+    |       |-- Config-Error.js
+    |       |-- Database-Error.js
+    |       |-- Invalid-Parameter-Error.js
+    |       |-- Not-Found-Error.js
+    |-- [logs]
+    |-- [node_modules]
+    |-- [middleware]
+    |       |-- [rules]
+    |               |--create-user-rules.js
+    |       |-- async-handler.js
+    |       |-- error-handler.js
+    |       |-- upload-handler.js
+    |       |-- validation-handler.js
+    |       |-- [models]
+    |               |-- User.js
+    |               |-- Verification-Token.js
+    |-- [routes]
+    |       |-- auth-routes.js
+    |       |-- dispatch-request.js
+    |       |-- static-routes.js
+    |       |-- user-routes.js
+    |       |-- v1-routes.js
+    |-- [services]
+    |       |-- auth-service.js
+    |       |-- user-service.js
+    |-- [system]
+    |       |-- connect-mongo-db.js
+    |       |-- graceful-shutdown.js
+    |       |-- mongo-db-listeners.js
+    |       |-- signal-listeners.js
+    |-- [utilities]
+    |       |-- deliver-email.js
+    |       |-- logger.js
+    |       |-- render-templates.js
+    |-- [views]
+    |       |-- [email]
+    |               |-- verify-email.hbs
+    |       |-- [layouts]
+    |               |-- email.hbs
+    |               |-- main.hbs
+    |       |-- register.hbs
+    |-- .env
+    |-- .gitignore
+    |-- .markdownlint.json
+    |-- developer-log.md
+    |-- index.js
+    |-- package-lock.json
+    |-- package.json
+    |-- README.md
+```
+
+---
+
 ## [0.0.5] - 20 September 2025
 
 Introduced styling, views, and core service logic to support user registration and email verification.

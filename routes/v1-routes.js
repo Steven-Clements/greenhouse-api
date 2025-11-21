@@ -1,8 +1,7 @@
 /** ——————>> Copyright © 2025 Clementine Technology Solutions LLC.  <<——————— *\
-|* static-routes.js | {√}/routes                                              *|
+|* v1-routes.js | {√}/routes                                                  *|
 |* —————————————————————————————————————————————————————————————————————————— *|
-|* Primary router for API requests. Dispatches requests for both static and   *|
-|* API routes based on the specified URI.                                     *|
+|* Routes requests that target version 1 of the API.                          *|
 |* —————————————————————————————————————————————————————————————————————————— *|
 |* @version 1.0.0   |  @since: 1.0.0                                          *|
 |* @author Steven "Chris" Clements <clements.steven07@outlook.com>            *|
@@ -17,6 +16,7 @@ import express from 'express';
 /* —————————————————————————————————————————————————————————————————————————— *\
 | Application modules                                                          |
 \* —————————————————————————————————————————————————————————————————————————— */
+import authRoutes from './auth-routes.js';
 import userRoutes from './user-routes.js';
 
 
@@ -29,6 +29,7 @@ const router = express.Router();
 /* —————————————————————————————————————————————————————————————————————————— *\
 | Define API endpoints                                                         |
 \* —————————————————————————————————————————————————————————————————————————— */
+router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 
 
