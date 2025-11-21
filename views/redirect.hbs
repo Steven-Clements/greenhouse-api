@@ -1,0 +1,8 @@
+<form id="verify-email" action="/api/v1/auth/verify-email" method="POST">
+    <input type="hidden" name="email" value="{{ email }}">
+    <input type="hidden" name="verificationCode" value="{{ verificationCode }}">
+</form>
+
+<script>
+    document.getElementById('verify-email').submit();
+</script>

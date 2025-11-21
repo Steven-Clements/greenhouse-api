@@ -11,11 +11,7 @@
 /* —————————————————————————————————————————————————————————————————————————— *\
 | Runtime dependencies                                                         |
 \* —————————————————————————————————————————————————————————————————————————— */
-import {
-    JsonWebTokenError,
-    TokenExpiredError,
-    NotBeforeError
-} from 'jsonwebtoken';
+import jsonwebtoken from 'jsonwebtoken';
 import { MulterError } from 'multer';
 import mongoose from 'mongoose'
 
@@ -36,6 +32,12 @@ import log from '../utilities/logger.js';
 /* —————————————————————————————————————————————————————————————————————————— *\
 | Destructure errors                                                           |
 \* —————————————————————————————————————————————————————————————————————————— */
+const {
+    JsonWebTokenError,
+    NotBeforeError,
+    TokenExpiredError
+} = jsonwebtoken;
+
 const {
     CastError,
     DivergentArrayError,
@@ -71,7 +73,7 @@ const {
  * Pass the error to the next middleware function (errorHandler).
  */
 function error404Handler(req, res, next) {
-    const error = new InvalidUriError(
+    const error = new NotFoundError(
         `The requested URI, "${req.originalUrl}", does not exist.`,
         404
     );
@@ -146,6 +148,23 @@ function errorHandler(error, req, res, next) {
     let details = null;
     let message = error.message || 'An unexpected server error occurred. Please try again later.';
     let cause = error.cause || null;
+
+    /* —— ⦿ —— ⦿ —— ⦿ —— { Error context } —— ⦿ —— ⦿ —— ⦿ —— */
+    const errorContext = {
+        timestamp: new Date().toISOString(),
+        requestId: req.id || Math.random().toString(36).substring(7),
+        method: req.method,
+        path: req.originalUrl,
+        userAgent: req.get('user-agent'),
+        ipAddress: req.ip,
+        error: {
+            name,
+            statusCode,
+            message,
+            details,
+            cause
+        }
+    }
 
     /* —— ⦿ —— ⦿ —— ⦿ —— { Custom errors } —— ⦿ —— ⦿ —— ⦿ —— */
     if (error instanceof ApiError) {
@@ -321,23 +340,6 @@ function errorHandler(error, req, res, next) {
     /* —— ⦿ —— ⦿ —— ⦿ —— { Log error details (development) } —— ⦿ —— ⦿ —— ⦿ —— */
     if (process.env.NODE_ENV === 'development') {
         log('error', error.message, errorContext);
-    }
-
-    /* —— ⦿ —— ⦿ —— ⦿ —— { Error context } —— ⦿ —— ⦿ —— ⦿ —— */
-    const errorContext = {
-        timestamp: new Date().toISOString(),
-        requestId: req.id || Math.random().toString(36).substring(7),
-        method: req.method,
-        path: req.originalUrl,
-        userAgent: req.get('user-agent'),
-        ipAddress: req.ip,
-        error: {
-            name,
-            statusCode,
-            message,
-            details,
-            cause
-        }
     }
 
     /* —— ⦿ —— ⦿ —— ⦿ —— { Return error response } —— ⦿ —— ⦿ —— ⦿ —— */

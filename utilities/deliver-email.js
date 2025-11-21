@@ -18,6 +18,7 @@ import nodemailer from 'nodemailer';
 /* —————————————————————————————————————————————————————————————————————————— *\
 | Application modules                                                          |
 \* —————————————————————————————————————————————————————————————————————————— */
+import renderEmailTemplate from '../utilities/render-templates.js';
 import log from './logger.js';
 
 
@@ -55,18 +56,22 @@ export function createTransporter() {
 /* —————————————————————————————————————————————————————————————————————————— *\
 | Send email verification                                                      |
 \* —————————————————————————————————————————————————————————————————————————— */
-export async function sendEmailVerification(email, userId, verificationCode) {
-    /* —— ⦿ —— ⦿ —— ⦿ —— { RENDER TEMPLATE (HANDLEBARS) } —— ⦿ —— ⦿ —— ⦿ —— */
-    const link = `${basePath}:${port}${versionPath}/auth/verify-email?userId=${userId}&verificationCode=${verificationCode}`;
+export async function sendEmailVerification(email, verificationCode) {
+    /* —— ⦿ —— ⦿ —— ⦿ —— { Create a new transporter } —— ⦿ —— ⦿ —— ⦿ —— */
+    const transporter = createTransporter();
+
+
+    /* —— ⦿ —— ⦿ —— ⦿ —— { Render template (Handlebars) } —— ⦿ —— ⦿ —— ⦿ —— */
+    const link = `${basePath}/api/v1/auth/verify-email?email=${email}&verificationCode=${verificationCode}`;
     const supportUrl = `${clientUrl}/support`
-    const htmlContent = renderEmailTemplate('verifyEmail', {
+    const htmlContent = renderEmailTemplate('verify-email', {
         link,
         supportUrl
     });
 
 
     
-    /* —— ⦿ —— ⦿ —— ⦿ —— { DEFINE ADDRESSES AND CONTENTS } —— ⦿ —— ⦿ —— ⦿ —— */
+    /* —— ⦿ —— ⦿ —— ⦿ —— { Define addresses and content } —— ⦿ —— ⦿ —— ⦿ —— */
     const deliveryStatus = await transporter.sendMail({
         from: `"Greenhouse Support" <${process.env.MAIL_USER}>`,
         to: email,
@@ -86,6 +91,6 @@ export async function sendEmailVerification(email, userId, verificationCode) {
     });
 
 
-    /* —— ⦿ —— ⦿ —— ⦿ —— { RETURN DELIVERY DETAILS } —— ⦿ —— ⦿ —— ⦿ —— */
+    /* —— ⦿ —— ⦿ —— ⦿ —— { Return delivery status } —— ⦿ —— ⦿ —— ⦿ —— */
     return deliveryStatus;
 }

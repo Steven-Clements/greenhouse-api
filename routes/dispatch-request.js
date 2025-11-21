@@ -1,5 +1,5 @@
 /** ——————>> Copyright © 2025 Clementine Technology Solutions LLC.  <<——————— *\
-|* dispatchRequest.js | {√}/routes                                            *|
+|* dispatch-request.js | {√}/routes                                           *|
 |* —————————————————————————————————————————————————————————————————————————— *|
 |* Primary router for API requests. Dispatches requests for both static and   *|
 |* API routes based on the specified URI.                                     *|
@@ -22,12 +22,6 @@ import v1Routes from './v1-routes.js';
 
 
 /* —————————————————————————————————————————————————————————————————————————— *\
-| Helper variables                                                             |
-\* —————————————————————————————————————————————————————————————————————————— */
-const versionPath = process.env.VERSION_PATH;
-
-
-/* —————————————————————————————————————————————————————————————————————————— *\
 | Initialize router                                                            |
 \* —————————————————————————————————————————————————————————————————————————— */
 const router = express.Router();
@@ -37,7 +31,7 @@ const router = express.Router();
 | Define API routes                                                            |
 \* —————————————————————————————————————————————————————————————————————————— */
 router.use('/', staticRoutes);
-router.use(`${versionPath}`, v1Routes);
+router.use(`/api/v1`, v1Routes);
 
 
 /* —————————————————————————————————————————————————————————————————————————— *\

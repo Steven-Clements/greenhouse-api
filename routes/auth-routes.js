@@ -1,7 +1,7 @@
 /** ——————>> Copyright © 2025 Clementine Technology Solutions LLC.  <<——————— *\
-|* static-routes.js | {√}/routes                                              *|
+|* auth-routes.js | {√}/routes                                                *|
 |* —————————————————————————————————————————————————————————————————————————— *|
-|* Routes requests to static views and assets within the backend server.      *|
+|* Routes requests targeting authentication and verification operations.      *|
 |* —————————————————————————————————————————————————————————————————————————— *|
 |* @version 1.0.0   |  @since: 1.0.0                                          *|
 |* @author Steven "Chris" Clements <clements.steven07@outlook.com>            *|
@@ -11,7 +11,14 @@
 | Runtime dependencies                                                         |
 \* —————————————————————————————————————————————————————————————————————————— */
 import express from 'express';
-import path from 'path';
+
+
+/* —————————————————————————————————————————————————————————————————————————— *\
+| Application modules                                                          |
+\* —————————————————————————————————————————————————————————————————————————— */
+import verifyRedirect from '../controllers/auth/verify-redirect.js';
+import verifyEmail from '../controllers/auth/verify-email.js';
+import login from '../controllers/auth/login.js';
 
 
 /* —————————————————————————————————————————————————————————————————————————— *\
@@ -21,35 +28,11 @@ const router = express.Router();
 
 
 /* —————————————————————————————————————————————————————————————————————————— *\
-|  Define Upload Path                                                          |
+| Define API endpoints                                                         |
 \* —————————————————————————————————————————————————————————————————————————— */
-router.use('/uploads', express.static(path.join(process.cwd(), 'assets', 'uploads')));
-
-
-/* —————————————————————————————————————————————————————————————————————————— *\
-| Define static views                                                          |
-\* —————————————————————————————————————————————————————————————————————————— */
-router.get('/register', (req, res) => {
-    res.render('register', {
-        title: 'Sign Up | Greenhouse',
-        description: 'Sign up for a new account.',
-        keywords: 'register, sign up, greenhouse, account, user',
-        image: '/assets/logo.png',
-        imageAlt: 'Greenhouse product logo',
-        url: '/register',
-    });
-});
-
-router.get('/verify-notice', (req, res) => {
-    res.render('verify-notice', {
-        title: 'Verify Your Email | Greenhouse',
-        description: 'Verify your email address before signing in.',
-        keywords: 'verification, email, greenhouse, account, user',
-        image: '/assets/logo.png',
-        imageAlt: 'Greenhouse product logo',
-        url: '/verify-notice',
-    });
-});
+router.post('/login', login);
+router.get('/verify-email', verifyRedirect);
+router.post('/verify-email', verifyEmail);
 
 
 /* —————————————————————————————————————————————————————————————————————————— *\

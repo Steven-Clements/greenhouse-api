@@ -1,8 +1,7 @@
 /** ——————>> Copyright © 2025 Clementine Technology Solutions LLC.  <<——————— *\
-|* static-routes.js | {√}/routes                                              *|
+|* user-routes.js | {√}/routes                                                *|
 |* —————————————————————————————————————————————————————————————————————————— *|
-|* Primary router for API requests. Dispatches requests for both static and   *|
-|* API routes based on the specified URI.                                     *|
+|* Routes requests targeting various user operations.                         *|
 |* —————————————————————————————————————————————————————————————————————————— *|
 |* @version 1.0.0   |  @since: 1.0.0                                          *|
 |* @author Steven "Chris" Clements <clements.steven07@outlook.com>            *|
@@ -32,8 +31,7 @@ const router = express.Router();
 /* —————————————————————————————————————————————————————————————————————————— *\
 | Define API endpoints                                                         |
 \* —————————————————————————————————————————————————————————————————————————— */
-router.route('/')
-    .post(upload.single('profilePicture'), createUserRules, validateRequest, createUser);
+router.post('/', upload.single('profilePicture'), createUserRules, validateRequest, createUser);
 
 
 /* —————————————————————————————————————————————————————————————————————————— *\
