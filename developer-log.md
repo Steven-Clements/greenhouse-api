@@ -2,11 +2,117 @@
 
 This log describes changes across the Greenhouse API project during the development phase of the project.
 
+## [0.0.7] - 21 September 2025
+
+Version 0.0.7 introduces validation rules and refinements to the authentication flow.
+
+New middleware files (`login-rules.js`, `verify-email-rules.js`, and `verify-redirect-rules.js`) were added to enforce input validation for their respective endpoints, strengthening request handling and consistency.
+
+A new `login.hbs` view was created to provide markup and styling for the login page. Several existing modules were updated to support authentication: `user-service.js` now updates users following successful login, `auth-service.js` incorporates business logic for authentication, and `login.js` was extended with endpoint logic.
+
+Supporting changes include adjustments to `register.js` to remove unintended text, updates to `static-routes.js` to route requests to the login view, and enhancements to `style.css` to style the new login interface. Together, these changes establish a more complete and secure authentication workflow with validated endpoints and a dedicated login view.
+
+- **commit-message**: `Validation rules | Authentication | Login view`
+
+### Added
+
+Added the following files as part of this commit:
+
+- Created a new `login-rules.js` to enforce validation rules for the `login` endpoint.
+- Created a new `verify-email-rules.js` to enforce validation rules for the `verify-email` endpoint.
+- Created a new `verify-redirect-rules.js` to enforce validation rules for the `verify-redirect` endpoint.
+- Created a new `login.hbs` to define the markup for the login view.
+
+### Changed
+
+The following files were updated as part of this commit:
+
+- Updated `user-service.js` to update users following successful authentication.
+- Updated `auth-service.js` to add business logic for authentication.
+- Updated `login.js` to add authentication logic to the endpoint.
+- Updated `register.js` to remove unintended text.
+- Updated `static-routes.js` to include routing to the `login` view.
+- Updated `style.css` to add style for the `login` view.
+
+### Directory structure
+
+```txt
+[greenhouse-api]
+    |-- [assets]
+    |       |-- style.css
+    |-- [controllers]
+    |       |-- [auth]
+    |               |-- login.js
+    |               |-- verify-email.js
+    |               |-- verify-redirect.js
+    |       |-- [users]
+    |               |-- create-user.js
+    |-- [errors]
+    |       |-- Api-Error.js
+    |       |-- Auth-Error.js
+    |       |-- Bad-Request-Error.js
+    |       |-- Config-Error.js
+    |       |-- Database-Error.js
+    |       |-- Invalid-Parameter-Error.js
+    |       |-- Not-Found-Error.js
+    |-- [logs]
+    |-- [node_modules]
+    |-- [middleware]
+    |       |-- [rules]
+    |               |-- create-user-rules.js
+    |               |-- login-rules.js
+    |               |-- verify-email-rules.js
+    |               |-- verify-redirect-rules.js
+    |       |-- async-handler.js
+    |       |-- error-handler.js
+    |       |-- upload-handler.js
+    |       |-- validation-handler.js
+    |       |-- [models]
+    |               |-- User.js
+    |               |-- Verification-Token.js
+    |-- [routes]
+    |       |-- auth-routes.js
+    |       |-- dispatch-request.js
+    |       |-- static-routes.js
+    |       |-- user-routes.js
+    |       |-- v1-routes.js
+    |-- [services]
+    |       |-- auth-service.js
+    |       |-- user-service.js
+    |-- [system]
+    |       |-- connect-mongo-db.js
+    |       |-- graceful-shutdown.js
+    |       |-- mongo-db-listeners.js
+    |       |-- signal-listeners.js
+    |-- [utilities]
+    |       |-- deliver-email.js
+    |       |-- logger.js
+    |       |-- render-templates.js
+    |-- [views]
+    |       |-- [email]
+    |       |       |-- verify-email.hbs
+    |       |-- [layouts]
+    |       |       |-- email.hbs
+    |       |       |-- main.hbs
+    |       |-- login.hbs
+    |       |-- redirect.hbs
+    |       |-- register.hbs
+    |       |-- verify-notice.hbs
+    |-- .env
+    |-- .gitignore
+    |-- .markdownlint.json
+    |-- developer-log.md
+    |-- index.js
+    |-- package-lock.json
+    |-- package.json
+    |-- README.md
+```
+
 ---
 
 ## [0.0.6] - 21 September 2025
 
-In this release, the Greenhouse API gained a complete registration and verification flow.
+In this commit, the Greenhouse API gained a complete registration and verification flow.
 
 New modules were introduced including `login.js` for basic user authentication, `auth-routes.js` to centralize routing for authentication and email verification, and dedicated models for User and Verification Token resources.
 
@@ -24,6 +130,8 @@ Together, these changes establish a robust foundation for user onboarding, authe
 
 ### Added
 
+Added the following files as part of this commit:
+
 - Created a new `login.js` to perform basic authentication for Users.
 - Created a new `auth-routes.js` to route requests related to authentication and email verification to an appropriate endpoint.
 - Created a new `Verification-Token.js` to define the properties and methods representing a Verification Token resource.
@@ -33,9 +141,13 @@ Together, these changes establish a robust foundation for user onboarding, authe
 
 #### Dependencies
 
+The following runtime dependencies were installed:
+
 - [serve-favicon](https://www.npmjs.com/package/serve-favicon).
 
 ### Changed
+
+The following files were updated as part of this commit:
 
 - Updated `index.js` to include a static path definition for `assets`.
 - Updated `register.hbs` with styles.

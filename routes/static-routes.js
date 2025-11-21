@@ -51,6 +51,17 @@ router.get('/verify-notice', (req, res) => {
     });
 });
 
+router.get('/login', (req, res) => {
+    res.render('login', {
+        title: 'Sign In | Greenhouse',
+        description: 'Sign in to access your account.',
+        keywords: 'authentication, greenhouse, account, user',
+        image: '/assets/logo.png',
+        imageAlt: 'Greenhouse product logo',
+        url: '/login',
+    });
+});
+
 
 /* —————————————————————————————————————————————————————————————————————————— *\
 | Export router                                                                |

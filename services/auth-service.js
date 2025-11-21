@@ -11,6 +11,8 @@
 |  Runtime Dependencies                                                        |
 \* —————————————————————————————————————————————————————————————————————————— */
 import crypto from 'crypto';
+import argon2 from 'argon2';
+import jsonwebtoken from 'jsonwebtoken';
 
 
 /* —————————————————————————————————————————————————————————————————————————— *\
@@ -105,4 +107,42 @@ export async function markEmailVerified(user) {
     }
 
     return false;
+}
+
+
+/* —————————————————————————————————————————————————————————————————————————— *\
+|  Verify password                                                             |
+\* —————————————————————————————————————————————————————————————————————————— */
+export async function verifyPassword(hashedPassword, password) {
+    return await argon2.verify(hashedPassword, password);
+}
+
+
+/* —————————————————————————————————————————————————————————————————————————— *\
+|  Generate MFA session                                                        |
+\* —————————————————————————————————————————————————————————————————————————— */
+export async function generateMfaSession(userId) {
+    const token = jsonwebtoken.sign(
+        { userId },
+        process.env.JWT_SECRET, {
+            expiresIn: '1h',
+        }
+    );
+
+    return token;
+}
+
+
+/* —————————————————————————————————————————————————————————————————————————— *\
+|  Generate user session                                                       |
+\* —————————————————————————————————————————————————————————————————————————— */
+export async function generateUserSession(userId) {
+    const token = jsonwebtoken.sign(
+        { userId },
+        process.env.JWT_SECRET, {
+            expiresIn: '24h',
+        }
+    );
+
+    return token;
 }
