@@ -70,3 +70,20 @@ export async function registerUser(profilePicture, name, username, email, passwo
 
     return await user.save();
 }
+
+
+/* —————————————————————————————————————————————————————————————————————————— *\
+|  Update user data (authentication)                                           |
+\* —————————————————————————————————————————————————————————————————————————— */
+export async function updateUserData(user, ipAddress) {
+    user.lastLoginAt = new Date();
+    user.lastLoginIp = ipAddress;
+
+    const updatedUser = await user.save();
+
+    if (updatedUser) {
+        return true;
+    }
+
+    return false;
+}
